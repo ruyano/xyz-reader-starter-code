@@ -146,6 +146,8 @@ public class ArticleListActivity extends ActionBarActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+//                    startActivity(new Intent(ArticleListActivity.this, ArticleDetailActivity.class));
+                    Log.i("ruyano", String.valueOf(ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
                 }
