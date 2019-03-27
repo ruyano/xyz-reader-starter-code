@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -15,10 +16,14 @@ import android.text.Html;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,6 +53,7 @@ public class ArticleDetailNewFragment extends Fragment implements
     private WebView articleBody;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Cursor mCursor;
+    private ProgressBar webViewProgressBar;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
@@ -87,8 +93,10 @@ public class ArticleDetailNewFragment extends Fragment implements
         progressBar = (RelativeLayout) mRootView.findViewById(R.id.progress_bar);
         fab = (FloatingActionButton) mRootView.findViewById(R.id.share_fab);
         articleBody = (WebView) mRootView.findViewById(R.id.article_body);
+        setupWebViewSettings();
         collapsingToolbarLayout = (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing);
         articleByline = (TextView) mRootView.findViewById(R.id.article_byline);
+        webViewProgressBar = (ProgressBar) mRootView.findViewById(R.id.web_view_progress_bar);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +109,36 @@ public class ArticleDetailNewFragment extends Fragment implements
         });
 
         return mRootView;
+    }
+
+    private void setupWebViewSettings() {
+        WebSettings webSettings = articleBody.getSettings();
+        webSettings.setDefaultFontSize(22);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setAppCacheEnabled(false);
+        webSettings.setBlockNetworkImage(true);
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setGeolocationEnabled(false);
+        webSettings.setNeedInitialFocus(false);
+        webSettings.setSaveFormData(false);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        articleBody.setBackgroundColor(Color.TRANSPARENT);
+        articleBody.setVerticalScrollBarEnabled(false);
+        articleBody.setHorizontalScrollBarEnabled(false);
+
+        articleBody.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                webViewProgressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                webViewProgressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
