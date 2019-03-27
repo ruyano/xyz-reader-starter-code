@@ -10,6 +10,7 @@
         android:id="@+id/main.appbar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="true" >
 
@@ -96,6 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_share"
+        android:elevation="6dp"
         app:layout_anchor="@id/main.appbar"
         app:layout_anchorGravity="bottom|right|end" />
 

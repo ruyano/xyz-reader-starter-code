@@ -45,7 +45,6 @@ public class ArticleDetailNewFragment extends Fragment implements
     private static final String TAG = "ArticleDetailFragment";
 
     private long mItemId;
-    private View mRootView;
     private ImageView mPhotoView;
     private RelativeLayout progressBar;
     private FloatingActionButton fab;
@@ -87,7 +86,7 @@ public class ArticleDetailNewFragment extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_article_detail_new, container, false);
+        View mRootView = inflater.inflate(R.layout.fragment_article_detail_new, container, false);
 
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
         progressBar = (RelativeLayout) mRootView.findViewById(R.id.progress_bar);
